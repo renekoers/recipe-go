@@ -1,7 +1,7 @@
 // Express
 const express = require("express");
 const app = express();
-const serverPort = 6969;
+const port = 5000;
 app.use(express.static("public"));
 app.use(express.json());
 
@@ -13,11 +13,33 @@ const conventions = store.conventions;
 store.initialize();
 
 // Classes
-const Ingredient = require("./client/src/main/nl/sogyo/domain/ingredient.js");
-const Recipe = require("./client/src/main/nl/sogyo/domain/recipe.js");
+const Ingredient = require("./src/domain/ingredient");
+const Recipe = require("./src/domain/recipe");
 
 app.get("/", function(req, res) {
   console.log("hi");
+});
+
+app.get("/api/ingredient/retrieve", async function(req, res) {
+  console.log("API call: request for ingredients.");
+  const session = store.openSession();
+  const query = await session
+    .query({ collection: "Ingredients" })
+    .waitForNonStaleResults()
+    .selectFields([
+      "id",
+      "_ingredientName",
+      "_ingredientKind",
+      "_ingredientPrice",
+      "_lastUpdate",
+      "_ingredientRating",
+      "_ingredientSuppliers"
+    ])
+    .all();
+
+  console.log(query);
+  res.status(200);
+  res.json(query);
 });
 
 // API that is called when a new ingredient is requested to beadded.
@@ -36,6 +58,8 @@ app.post(
     ingredient = await session.store(ingredient);
     await session.saveChanges();
     console.log("Ingredient was added.");
+
+    res.sendStatus(200);
   }
 );
 
@@ -59,6 +83,6 @@ app.post(
 );
 
 // Hosts the server on localhost with selected serverport in settings.
-app.listen(serverPort, () =>
-  console.log("Server is listening on localhost:" + serverPort + "!")
+app.listen(port, () =>
+  console.log(`Server is listening on localhost:${port}!`)
 );
