@@ -1,0 +1,17 @@
+.NavigationButton {
+  font-family: Roboto, Helvetica Neue, sans-serif;
+  line-height: 80px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 18px;
+  height: 100%;
+  display: inline-block;
+  color: rgb(47, 68, 47);
+  transition: 0.2s;
+  text-decoration: none;
+}
+
+.NavigationButton:hover {
+  background-color: #b7c2b8;
+  transition: 0.2s;
+}

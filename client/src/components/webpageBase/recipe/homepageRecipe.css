@@ -1,0 +1,12 @@
+article {
+  margin-left: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: solid rgb(54, 75, 54);
+  border-width: 1px;
+  padding: 10px 0px 10px 0px;
+  width: 90%;
+  height: 100px;
+  font-family: Roboto, Helvetica Neue, sans-serif;
+  color: rgb(47, 68, 47);
+}

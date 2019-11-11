@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import "./topMenuBar.css";
+import NavigationButton from "./navigationButton";
 
 class TopMenuBar extends Component {
   state = {
     websiteName: "Recipe & Go",
     navigationTargets: [
       {
-        targetName: "Hoi jeroen",
-        targetUrl: "/target1"
+        targetName: "Recepten",
+        targetUrl: "/"
       },
       {
-        targetName: "Target2",
+        targetName: "Ingrediënten",
         targetUrl: "/target2"
       },
       {
@@ -30,7 +31,7 @@ class TopMenuBar extends Component {
         <div className="TopMenuBar">
           <div className="NavigationContainer">
             <div className="Navigation">
-              <a className="MenuBanner" href>
+              <a className="MenuBanner" href="/">
                 <img
                   className="MenuLogo"
                   src="./img/websitelogo.png"
@@ -49,10 +50,12 @@ class TopMenuBar extends Component {
   }
 
   getNavigationTargets() {
-    return this.state.navigationTargets.map(target => (
-      <a className="NavigationTarget" href={target.url}>
-        {target.targetName}
-      </a>
+    return this.state.navigationTargets.map((target, index) => (
+      <NavigationButton
+        key={index}
+        targetName={target.targetName}
+        targetUrl={target.targetUrl}
+      />
     ));
   }
 }

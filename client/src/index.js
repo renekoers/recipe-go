@@ -1,8 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import TopMenuBar from "./components/webpageBase/menu/topMenuBar";
+import Homepage from "./components/webpages/homepage";
+import Recipe from "./components/webpages/recipe";
+import { BrowserRouter, Route } from "react-router-dom";
 
-const website = <TopMenuBar />;
-console.log(website);
+class WebsiteApp extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Route path="/" component={Homepage} />
+        {/* <Route path="/ingredienten" exact strict component={Ingredients} /> */}
+        <Route path="/recipes/:recipe-id" exact strict component={Recipe} />
+      </BrowserRouter>
+    );
+  }
+}
 
-ReactDOM.render(website, document.getElementById("root"));
+ReactDOM.render(<WebsiteApp />, document.getElementById("root"));

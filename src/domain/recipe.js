@@ -1,61 +1,62 @@
-const Quantity = require('./quantity');
+const Quantity = require("./quantity");
 
 class Recipe {
-    /**
-     * 
-     * @param {String} recipe JSON String
-     */
-    constructor(recipe) {       
-        this._recipeName = recipe.recipeName;
-        this._recipeIngredients = [];
-        this._lastUpdate = new Date().toLocaleString();
-        this._recipeRating = 0.00;
+  /**
+   *
+   * @param {String} recipe JSON String
+   */
+  constructor(recipe) {
+    this._recipeName = recipe.recipeName;
+    this._recipeDescription = recipe.recipeDescription;
+    this._recipeIngredients = [];
+    this._lastUpdate = new Date().toLocaleString();
+    this._recipeRating = 0.0;
 
-        for (let neededIngredient of recipe.recipeIngredients) {
-            let ingredient = neededIngredient.ingredientObject;
-            let quantity = new Quantity(neededIngredient.quantityObject);
+    for (let neededIngredient of recipe.recipeIngredients) {
+      let ingredient = neededIngredient.ingredientObject;
+      let quantity = new Quantity(neededIngredient.quantityObject);
 
-            let recipeIngredient = {
-                ingredient: ingredient,
-                quantity: quantity
-            };
-            
-            this._recipeIngredients.push(recipeIngredient);
-        }
+      let recipeIngredient = {
+        ingredient: ingredient,
+        quantity: quantity
+      };
 
-        // optional variables (Not implemented yet for MVP)
-
-        // this._recipeTags = [];
-        // this._recipeImageUrl = recipe._recipeImageUrl;
-
-        
-
-        // for (let tag of recipe.recipeTags) {
-        //     this._recipeTags.push(tag);
-        // }
-
+      this._recipeIngredients.push(recipeIngredient);
     }
 
-    get recipeName() {
-        return this._recipeName;
-    }
+    // optional variables (Not implemented yet for MVP)
 
-    get recipeIngredients() {
-        return this._recipeIngredients;
-    }
+    // this._recipeTags = [];
+    // this._recipeImageUrl = recipe._recipeImageUrl;
 
-    get ingredientQuantities() {
-        return this._ingredientQuanities;
-    }
+    // for (let tag of recipe.recipeTags) {
+    //     this._recipeTags.push(tag);
+    // }
+  }
 
-    get lastUpdate(){
-        return this._lastUpdate;
-    }
+  get recipeName() {
+    return this._recipeName;
+  }
 
-    get recipeRating(){
-        return this._recipeRating;
-    }
+  get recipeDescription() {
+    return this._recipeDescription;
+  }
 
+  get recipeIngredients() {
+    return this._recipeIngredients;
+  }
+
+  get ingredientQuantities() {
+    return this._ingredientQuanities;
+  }
+
+  get lastUpdate() {
+    return this._lastUpdate;
+  }
+
+  get recipeRating() {
+    return this._recipeRating;
+  }
 }
 
 module.exports = Recipe;

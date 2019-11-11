@@ -16,11 +16,47 @@ store.initialize();
 const Ingredient = require("./src/domain/ingredient");
 const Recipe = require("./src/domain/recipe");
 
-app.get("/", function(req, res) {
-  console.log("hi");
-});
+// API that is called when a new ingredient is requested to beadded.
+app.post(
+  "/api/ingredients/add",
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async function(req, res) {
+    let ingredient = new Ingredient(req.body);
 
-app.get("/api/ingredient/retrieve", async function(req, res) {
+    const session = store.openSession();
+
+    ingredient = await session.store(ingredient);
+    await session.saveChanges();
+    console.log("Ingredient was added.");
+
+    res.sendStatus(200);
+  }
+);
+
+// API that is called when a new recipe is requested to be added.
+app.post(
+  "/api/recipes/add",
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async function(req, res) {
+    let recipe = new Recipe(req.body);
+
+    const session = store.openSession();
+
+    recipe = await session.store(recipe);
+    await session.saveChanges();
+    console.log("Recipe was added.");
+  }
+);
+
+app.get("/api/ingredients/retrieve/all", async function(req, res) {
   console.log("API call: request for ingredients.");
   const session = store.openSession();
   const query = await session
@@ -42,45 +78,61 @@ app.get("/api/ingredient/retrieve", async function(req, res) {
   res.json(query);
 });
 
-// API that is called when a new ingredient is requested to beadded.
-app.post(
-  "/api/ingredient/add",
+app.get(
+  "/api/recipes/retrieve/latest",
   /**
    *
    * @param {Request} req
-   * @param {Response} res
+   * @param {Response} res JSON response with 10 latest recipes.
    */
   async function(req, res) {
-    let ingredient = new Ingredient(req.body);
-
+    console.log("API call: request for latest recipes.");
     const session = store.openSession();
+    const query = await session
+      .query({ collection: "Recipes" })
+      .waitForNonStaleResults()
+      .selectFields(["id", "_recipeName", "_recipeDescription"])
+      .take(10)
+      .all();
 
-    ingredient = await session.store(ingredient);
-    await session.saveChanges();
-    console.log("Ingredient was added.");
-
-    res.sendStatus(200);
+    console.log(query);
+    res.status(200);
+    res.json(query);
   }
 );
 
-// API that is called when a new recipe is requested to be added.
-app.post(
-  "/api/recipe/add",
-  /**
-   *
-   * @param {Request} req
-   * @param {Response} res
-   */
-  async function(req, res) {
-    let recipe = new Recipe(req.body);
+// API to make recipes while function is not yet available on the website
+app.get("/api/makerecipetest", async function(req, res) {
+  let newIngredient = {
+    ingredientName: "aardbei",
+    ingredientKind: "fruit",
+    ingredientPrice: 0.6,
+    ingredientSuppliers: ["Albert Heijn"]
+  };
 
-    const session = store.openSession();
+  let newQuantity = {
+    amount: 10,
+    unit: "gram"
+  };
+  let ingredient = new Ingredient(newIngredient);
+  let neededIngredient = {
+    ingredientObject: ingredient,
+    quantityObject: newQuantity
+  };
 
-    recipe = await session.store(recipe);
-    await session.saveChanges();
-    console.log("Recipe was added.");
-  }
-);
+  let newRecipe = {
+    recipeName: "Aardbeien Jam",
+    recipeDescription: "Het is een aardbei in een pot.",
+    recipeIngredients: [neededIngredient]
+  };
+
+  let recipe = new Recipe(newRecipe);
+
+  const session = store.openSession();
+  recipe = await session.store(recipe);
+  await session.saveChanges();
+  console.log("recipe added");
+});
 
 // Hosts the server on localhost with selected serverport in settings.
 app.listen(port, () =>

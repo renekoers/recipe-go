@@ -22,6 +22,7 @@ let neededIngredient = {
 
 let newRecipe = {
   recipeName: "tomatenpuree",
+  recipeDescription: "Ambachtelijk met de hand inelkaar geslagen.",
   recipeIngredients: [neededIngredient]
 };
 
