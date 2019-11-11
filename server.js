@@ -101,6 +101,20 @@ app.get(
   }
 );
 
+app.post("/api/recipes/retrieve/byid", async function(req, res) {
+  let data = req.body;
+  console.log("API call: request for specific recipe by ID");
+  const session = store.openSession();
+  const query = await session
+    .query({ collection: "Recipes" })
+    .whereEquals("id", data)
+    .all();
+
+  console.log(query);
+  res.status(200);
+  res.json(query);
+});
+
 // API to make recipes while function is not yet available on the website
 app.get("/api/makerecipetest", async function(req, res) {
   let newIngredient = {
