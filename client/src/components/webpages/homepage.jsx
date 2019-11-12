@@ -33,7 +33,7 @@ class Homepage extends Component {
   render() {
     return (
       <div className="homepage-page">
-        <ul className="recipe-list">{this.state.frontPageRecipes}</ul>
+        <div className="recipe-list">{this.state.frontPageRecipes}</div>
       </div>
     );
   }

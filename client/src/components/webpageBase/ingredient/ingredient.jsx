@@ -16,6 +16,7 @@ class Ingredient extends Component {
       suppliers: []
     };
   }
+
   componentDidMount() {
     let suppliers = this.getIngredientSuppliers(
       this.state.ingredient.ingredientSuppliers
@@ -53,9 +54,8 @@ class Ingredient extends Component {
   }
 
   getIngredientSuppliers(suppliers) {
-    let supplierArray = [];
-    suppliers.map((supplier, index) => {
-      supplierArray.push(
+    let supplierArray = suppliers.map((supplier, index) => {
+      return (
         <li className="ingredient-supplier" key={index}>
           {supplier._storeName}
         </li>

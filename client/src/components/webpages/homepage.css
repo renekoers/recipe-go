@@ -1,10 +1,19 @@
+.homepage-page {
+  margin-top: 80px;
+}
+
 .recipe-list {
+  display: grid;
+  grid-template-columns: 95%;
+  grid-auto-rows: 150px;
+  grid-row-gap: 5px;
   z-index: 0;
-  margin-top: 100px;
+  margin-top: 20px;
   margin-left: 25%;
   margin-right: 25%;
-  width: 50%;
+  padding-bottom: 30px;
   height: auto;
-  box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.1);
+  background-color: #fdfdfd;
   border: solid 1px #eaeaea;
+  justify-content: center;
 }

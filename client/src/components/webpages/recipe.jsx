@@ -6,7 +6,7 @@ class Recipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeID: this.props.match.params.recipeID,
+      recipeID: props.match.params.recipeID,
       recipe: {},
       ingredients: []
     };

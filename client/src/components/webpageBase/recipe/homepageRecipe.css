@@ -1,10 +1,26 @@
-article {
-  margin-left: 50px;
-  border-bottom: solid rgb(54, 75, 54);
-  border-width: 1px;
-  padding: 10px 0px 10px 0px;
-  width: 90%;
-  height: 100px;
+.homepage-recipe-container {
   font-family: Roboto, Helvetica Neue, sans-serif;
+  box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+
+  background-color: white;
+  width: 100%;
+}
+
+.homepage-recipe-content {
+  display: inline-flex;
+  margin: 5px 10px 5px 10px;
+}
+
+.teaser-image {
+  height: 120px;
+}
+
+.recipe-name {
+  margin-top: 10px;
   color: rgb(47, 68, 47);
+}
+
+.homepagerecipe-content-wrapper {
+  margin-left: 10px;
 }
