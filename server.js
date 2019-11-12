@@ -78,6 +78,29 @@ app.get("/api/ingredients/retrieve/all", async function(req, res) {
   res.json(query);
 });
 
+app.get("/api/ingredients/retrieve/latest", async function(req, res) {
+  console.log("API call: request for latest ingredients.");
+  const session = store.openSession();
+  const query = await session
+    .query({ collection: "Ingredients" })
+    .waitForNonStaleResults()
+    .selectFields([
+      "id",
+      "_ingredientName",
+      "_ingredientKind",
+      "_ingredientPrice",
+      "_lastUpdate",
+      "_ingredientRating",
+      "_ingredientSuppliers"
+    ])
+    .take(10)
+    .all();
+
+  console.log(query);
+  res.status(200);
+  res.json(query);
+});
+
 app.get(
   "/api/recipes/retrieve/latest",
   /**
@@ -86,7 +109,6 @@ app.get(
    * @param {Response} res JSON response with 10 latest recipes.
    */
   async function(req, res) {
-    console.log("API call: request for latest recipes.");
     const session = store.openSession();
     const query = await session
       .query({ collection: "Recipes" })
@@ -95,7 +117,6 @@ app.get(
       .take(10)
       .all();
 
-    console.log(query);
     res.status(200);
     res.json(query);
   }
@@ -103,14 +124,12 @@ app.get(
 
 app.post("/api/recipes/retrieve/byid", async function(req, res) {
   let data = req.body;
-  console.log("API call: request for specific recipe by ID");
   const session = store.openSession();
   const query = await session
     .query({ collection: "Recipes" })
-    .whereEquals("id", data)
+    .whereEquals("id", "recipes/" + data.id)
     .all();
 
-  console.log(query);
   res.status(200);
   res.json(query);
 });

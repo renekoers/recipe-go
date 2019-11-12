@@ -12,7 +12,7 @@ class TopMenuBar extends Component {
       },
       {
         targetName: "Ingrediënten",
-        targetUrl: "/target2"
+        targetUrl: "/ingredients"
       },
       {
         targetName: "Target3",

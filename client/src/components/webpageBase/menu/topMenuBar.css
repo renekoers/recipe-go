@@ -5,6 +5,7 @@ header {
 
 .TopMenuBarContainer {
   background-color: #f1f1f1;
+  display: block;
   color: rgb(47, 68, 47);
   width: 100%;
   z-index: 1;

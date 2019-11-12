@@ -1,0 +1,20 @@
+.ingredients-page {
+  margin-top: 100px;
+  display: block;
+}
+
+.top-add-button {
+  margin-left: 11%;
+  margin-bottom: 10px;
+}
+
+.latest-ingredients-list-container {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.latest-ingredients-list {
+  display: grid;
+  grid-template-columns: 400px 400px 400px;
+  grid-auto-rows: 300px;
+}

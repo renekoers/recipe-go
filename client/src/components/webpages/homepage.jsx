@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import "../webpageBase/menu/topMenuBar";
 import "./homepage.css";
-import TopMenuBar from "../webpageBase/menu/topMenuBar";
 import HomepageRecipe from "../webpageBase/recipe/homepageRecipe";
 
 class Homepage extends Component {
   constructor() {
     super();
     this.state = {
-      recipes: []
+      frontPageRecipes: []
     };
   }
 
@@ -23,21 +22,25 @@ class Homepage extends Component {
             <HomepageRecipe
               recipeName={recipe._recipeName}
               description={recipe._recipeDescription}
-              id={recipe.id}
+              id={this.formatID(recipe.id)}
               key={index}
             />
           );
         });
-        this.setState({ recipes: latestRecipes });
+        this.setState({ frontPageRecipes: latestRecipes });
       });
   }
   render() {
     return (
-      <div>
-        <TopMenuBar />
-        <div className="recipe-list">{this.state.recipes}</div>
+      <div className="homepage-page">
+        <ul className="recipe-list">{this.state.frontPageRecipes}</ul>
       </div>
     );
+  }
+
+  formatID(receivedID) {
+    let id = receivedID.substring(receivedID.indexOf("/") + 1);
+    return id;
   }
 }
 

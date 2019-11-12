@@ -1,0 +1,11 @@
+.ingredient {
+  display: inline-flex;
+}
+
+.ingredient-quantity {
+  margin-right: 5px;
+}
+
+.ingredient-unit {
+  margin-right: 10px;
+}

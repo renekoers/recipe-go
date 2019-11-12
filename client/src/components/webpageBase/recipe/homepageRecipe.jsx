@@ -5,7 +5,7 @@ import "./homepageRecipe.css";
 function HomepageRecipe(props) {
   return (
     <article className="recipe-container">
-      <Link to={props.id}>
+      <Link to={"recipes/" + props.id}>
         <div
           className="teaser-image"
           src="../../../../public/img/websitelogo.png"
