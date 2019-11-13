@@ -15,6 +15,7 @@ store.initialize();
 // Classes
 const Ingredient = require("./src/domain/ingredient");
 const Recipe = require("./src/domain/recipe");
+const Store = require("./src/domain/store");
 
 // API that is called when a new ingredient is requested to beadded.
 app.post(
@@ -56,50 +57,64 @@ app.post(
   }
 );
 
-app.get("/api/ingredients/retrieve/all", async function(req, res) {
-  console.log("API call: request for ingredients.");
-  const session = store.openSession();
-  const query = await session
-    .query({ collection: "Ingredients" })
-    .waitForNonStaleResults()
-    .selectFields([
-      "id",
-      "_ingredientName",
-      "_ingredientKind",
-      "_ingredientPrice",
-      "_lastUpdate",
-      "_ingredientRating",
-      "_ingredientSuppliers"
-    ])
-    .all();
+app.get(
+  "/api/ingredients/retrieve/all",
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async function(req, res) {
+    console.log("API call: request for ingredients.");
+    const session = store.openSession();
+    const query = await session
+      .query({ collection: "Ingredients" })
+      .waitForNonStaleResults()
+      .selectFields([
+        "id",
+        "_ingredientName",
+        "_ingredientKind",
+        "_ingredientPrice",
+        "_lastUpdate",
+        "_ingredientRating",
+        "_ingredientSuppliers"
+      ])
+      .all();
 
-  console.log(query);
-  res.status(200);
-  res.json(query);
-});
+    res.status(200);
+    res.json(query);
+  }
+);
 
-app.get("/api/ingredients/retrieve/latest", async function(req, res) {
-  console.log("API call: request for latest ingredients.");
-  const session = store.openSession();
-  const query = await session
-    .query({ collection: "Ingredients" })
-    .waitForNonStaleResults()
-    .selectFields([
-      "id",
-      "_ingredientName",
-      "_ingredientKind",
-      "_ingredientPrice",
-      "_lastUpdate",
-      "_ingredientRating",
-      "_ingredientSuppliers"
-    ])
-    .take(10)
-    .all();
+app.get(
+  "/api/ingredients/retrieve/latest",
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async function(req, res) {
+    console.log("API call: request for latest ingredients.");
+    const session = store.openSession();
+    const query = await session
+      .query({ collection: "Ingredients" })
+      .waitForNonStaleResults()
+      .selectFields([
+        "id",
+        "_ingredientName",
+        "_ingredientKind",
+        "_ingredientPrice",
+        "_lastUpdate",
+        "_ingredientRating",
+        "_ingredientSuppliers"
+      ])
+      .take(10)
+      .all();
 
-  console.log(query);
-  res.status(200);
-  res.json(query);
-});
+    res.status(200);
+    res.json(query);
+  }
+);
 
 app.get(
   "/api/recipes/retrieve/latest",
@@ -122,17 +137,51 @@ app.get(
   }
 );
 
-app.post("/api/recipes/retrieve/byid", async function(req, res) {
-  let data = req.body;
+app.post(
+  "/api/recipes/retrieve/byid",
+
+  /**
+   *
+   * @param {Request} req Request containing JSON object with recipe ID.
+   * @param {Response} res
+   */
+  async function(req, res) {
+    let data = req.body;
+    const session = store.openSession();
+    const query = await session
+      .query({ collection: "Recipes" })
+      .waitForNonStaleResults()
+      .whereEquals("id", "recipes/" + data.id)
+      .all();
+
+    res.status(200);
+    res.json(query);
+  }
+);
+
+app.get("/api/suppliers/retrieve/all", async function(req, res) {
   const session = store.openSession();
   const query = await session
-    .query({ collection: "Recipes" })
-    .whereEquals("id", "recipes/" + data.id)
+    .query({ collection: "Stores" })
+    .waitForNonStaleResults()
     .all();
 
   res.status(200);
   res.json(query);
 });
+
+// app.get("/api/initializestore", async function(req, res) {
+//   let newStorename = "";
+//   let newStore = new Store(newStorename);
+
+//   let session = store.openSession();
+//   newStore = await session.store(newStore);
+//   await session.saveChanges();
+
+//   console.log(newStore + " added!");
+//   res.status(200);
+//   res.json(newStore);
+// });
 
 // API to make recipes while function is not yet available on the website
 app.get("/api/makerecipetest", async function(req, res) {

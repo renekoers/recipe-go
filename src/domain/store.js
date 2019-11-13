@@ -1,18 +1,18 @@
-class Store{
-    /**
-     * 
-     * @param {String} store Storename
-     */
-    constructor(storeName){
-        this._storeName = storeName;
-    };
+class Store {
+  /**
+   *
+   * @param {String} store Storename string
+   */
+  constructor(storeName) {
+    this._storeName = storeName;
+  }
 
-    /**
-     * @returns {String}
-     */
-    get storeName(){
-        return this._storeName;
-    };
+  /**
+   * @returns {String}
+   */
+  get storeName() {
+    return this._storeName;
+  }
 }
 
 module.exports = Store;

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./ingredients.css";
 import Ingredient from "../webpageBase/ingredient/ingredient";
-import Button from "../webpageBase/interaction/button";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Ingredients extends Component {
   constructor(props) {
@@ -37,11 +38,9 @@ class Ingredients extends Component {
     return (
       <div className="ingredients-page">
         <div className="top-add-button">
-          <Button
-            kind="btn-add-ingredient"
-            value="add ingredient"
-            target="/ingredients/add"
-          />
+          <Link to="/ingredients/add">
+            <Button variant="primary">Add ingredient</Button>
+          </Link>
         </div>
 
         <div className="latest-ingredients-list-container">

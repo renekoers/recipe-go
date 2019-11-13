@@ -21,6 +21,10 @@
   color: rgb(47, 68, 47);
 }
 
+.recipe-name-link {
+  text-decoration: none;
+}
+
 .homepagerecipe-content-wrapper {
   margin-left: 10px;
 }

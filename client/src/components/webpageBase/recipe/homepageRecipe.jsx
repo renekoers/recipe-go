@@ -14,7 +14,7 @@ function HomepageRecipe(props) {
           />
         </Link>
         <div className="homepagerecipe-content-wrapper">
-          <Link to={"recipes/" + props.id}>
+          <Link to={"recipes/" + props.id} className="recipe-name-link">
             <h3 className="recipe-name">{props.recipeName}</h3>
           </Link>
           <div className="recipe-description">{props.description}</div>

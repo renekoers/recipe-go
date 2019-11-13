@@ -15,6 +15,8 @@
 
 .latest-ingredients-list {
   display: grid;
-  grid-template-columns: 400px 400px 400px;
-  grid-auto-rows: 300px;
+  background-color: #fdfdfd;
+  border: solid 1px #eaeaea;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  grid-auto-rows: 220px;
 }

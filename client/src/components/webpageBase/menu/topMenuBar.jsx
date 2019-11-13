@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./topMenuBar.css";
 import NavigationButton from "./navigationButton";
+import { Link } from "react-router-dom";
+import Logo from "../../../img/websitelogo.png";
 
 class TopMenuBar extends Component {
   state = {
@@ -13,14 +15,6 @@ class TopMenuBar extends Component {
       {
         targetName: "Ingrediënten",
         targetUrl: "/ingredients"
-      },
-      {
-        targetName: "Target3",
-        targetUrl: "/target3"
-      },
-      {
-        targetName: "Target4",
-        targetUrl: "/target4"
       }
     ]
   };
@@ -31,16 +25,12 @@ class TopMenuBar extends Component {
         <div className="TopMenuBar">
           <div className="NavigationContainer">
             <div className="Navigation">
-              <a className="MenuBanner" href="/">
-                <img
-                  className="MenuLogo"
-                  src="./img/websitelogo.png"
-                  alt="logo"
-                ></img>
+              <Link className="MenuBanner" to="/">
+                <img className="MenuLogo" src={Logo} alt="logo"></img>
                 <span className="MenuWebsiteName">
                   {this.state.websiteName}
                 </span>
-              </a>
+              </Link>
               <nav className="NavigationBar">{this.getNavigationTargets()}</nav>
             </div>
           </div>

@@ -1,0 +1,11 @@
+.add-ingredient-page {
+  margin-top: 80px;
+  background-color: rgb(247, 247, 247);
+}
+
+.add-ingredient-form-container {
+  padding: 10px 50px 10px 50px;
+  background-color: white;
+  margin: 30px auto auto auto;
+  width: 30%;
+}

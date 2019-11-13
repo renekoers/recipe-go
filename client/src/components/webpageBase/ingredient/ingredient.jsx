@@ -21,10 +21,6 @@ class Ingredient extends Component {
     let suppliers = this.getIngredientSuppliers(
       this.state.ingredient.ingredientSuppliers
     );
-
-    console.log(
-      this.getIngredientSuppliers(this.state.ingredient.ingredientSuppliers)
-    );
     this.setState({ suppliers: suppliers });
   }
 
@@ -32,22 +28,29 @@ class Ingredient extends Component {
     return (
       <div className="ingredient-list-unit">
         <article className="ingredient">
-          <div className="ingredient-name">
-            {this.state.ingredient.ingredientName}
+          <div className="ingredient-top-bar">
+            <div className="ingredient-name">
+              {this.state.ingredient.ingredientName}
+            </div>
+            <div className="ingredient-rating">
+              rating: {this.state.ingredient.ingredientRating}
+            </div>
           </div>
-          <div className="ingredient-rating">
-            rating: {this.state.ingredient.ingredientRating}
+          <div className="ingredient-content-container">
+            <img
+              className="ingredient-image"
+              alt="ingredient"
+              src="https://www.smakelijketenzonderzout.nl/uploads/_products/product_7150/ah-huismerk-gepelde-tomaten.jpg"
+            />
+            <div className="ingredient-information">
+              <div className="ingredient-price">
+                €{this.state.ingredient.ingredientPrice.toFixed(2)}
+              </div>
+              <ul className="ingredient-suppliers">
+                Verkocht bij: {this.state.suppliers}
+              </ul>
+            </div>
           </div>
-          <div className="ingredient-kind">
-            {this.state.ingredient.ingredientKind}
-          </div>
-          <div className="ingredient-price">
-            €{this.state.ingredient.ingredientPrice}
-          </div>
-
-          <ul className="ingredient-suppliers">
-            Verkocht bij: {this.state.suppliers}
-          </ul>
         </article>
       </div>
     );
