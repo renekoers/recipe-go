@@ -8,15 +8,25 @@ class Product {
    */
   constructor(newProduct) {
     this._productName = newProduct.productName;
-    this._productPrice = parseFloat(newProduct.productPrice);
     this._productQuantity = new Quantity(
       newProduct.productAmount,
       newProduct.productUnit
     );
-    this._productSuppliers = newProduct.productSuppliers;
+    this._productSuppliers = [
+      {
+        productSupplier: newProduct.productSuppliers,
+        productPrice: parseFloat(newProduct.productPrice)
+      }
+    ];
     this._productRating = 0.0;
     this._lastUpdate = new Date().toLocaleString();
 
+    for (let productsupplier of newProduct.productSuppliers) {
+      _productSuppliers.push({
+        productSupplier: productsupplier,
+        productPrice: parseFloat(newProduct.productPrice)
+      });
+    }
     // optional variables (Not implemented yet for MVP)
 
     // this._singlePriceThreshold = newProduct.singlePriceThreshold;
