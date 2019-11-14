@@ -8,9 +8,6 @@ class RecipeIngredient extends Component {
     this.state = {
       ingredientName: props.ingredientName,
       ingredientKind: props.ingredientKind,
-      ingredientPrice: props.ingredientPrice,
-      ingredientSuppliers: props.ingredientSuppliers,
-      ingredientRating: props.ingredientRating,
       ingredientQuantity: props.ingredientQuantity,
       ingredientUnit: props.ingredientUnit
     };

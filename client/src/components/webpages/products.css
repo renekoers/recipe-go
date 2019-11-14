@@ -1,4 +1,4 @@
-.ingredients-page {
+.products-page {
   margin-top: 100px;
   display: block;
 }
@@ -8,12 +8,12 @@
   margin-bottom: 10px;
 }
 
-.latest-ingredients-list-container {
+.latest-products-list-container {
   margin-left: 10%;
   margin-right: 10%;
 }
 
-.latest-ingredients-list {
+.latest-products-list {
   display: grid;
   background-color: #fdfdfd;
   border: solid 1px #eaeaea;

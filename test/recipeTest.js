@@ -1,29 +1,36 @@
 const assert = require("chai").assert;
 const Ingredient = require("../src/domain/ingredient");
+const Product = require("../src/domain/product");
+const Supplier = require("../src/domain/supplier");
 const Quantity = require("../src/domain/quantity");
 const Recipe = require("../src/domain/recipe");
-
-let newIngredient = {
-  ingredientName: "tomato",
-  ingredientKind: "fruit",
-  ingredientPrice: 0.5,
-  ingredientSuppliers: ["Albert Heijn"]
-};
-
-let newQuantity = {
-  amount: 100,
-  unit: "gram"
-};
-let ingredient = new Ingredient(newIngredient);
-let neededIngredient = {
-  ingredientObject: ingredient,
-  quantityObject: newQuantity
-};
 
 let newRecipe = {
   recipeName: "tomatenpuree",
   recipeDescription: "Ambachtelijk met de hand inelkaar geslagen.",
-  recipeIngredients: [neededIngredient]
+  recipeIngredients: [
+    {
+      ingredientObject: new Ingredient({
+        ingredientName: "tomaten puree",
+        ingredientProducts: new Product({
+          productName: "AH tomaten",
+          productPrice: 0.5,
+          productQuantityObject: {
+            amount: 100,
+            unit: "gram"
+          },
+          productSuppliers: [
+            new Supplier("Albert Heijn"),
+            new Supplier("Jumbo")
+          ]
+        })
+      }),
+      quantityObject: {
+        amount: 200,
+        unit: "gram"
+      }
+    }
+  ]
 };
 
 let recipe = new Recipe(newRecipe);
@@ -44,7 +51,7 @@ describe("Recipe", function() {
       let ingredientName = ingredientObject.ingredientName;
 
       assert.isTrue(ingredientObject instanceof Ingredient);
-      assert.equal(ingredientName, "tomato");
+      assert.equal(ingredientName, "tomaten puree");
     });
   });
 
@@ -56,7 +63,7 @@ describe("Recipe", function() {
       let quantityUnit = quantityObject.unit;
 
       assert.isTrue(quantityObject instanceof Quantity);
-      assert.equal(100, quantityAmount);
+      assert.equal(200, quantityAmount);
       assert.equal("gram", quantityUnit);
     });
   });

@@ -1,26 +1,27 @@
-class Quantity{
-    /**
-     * 
-     * @param {Object} ingredientQuantityObject Contains the amount of the ingredient and the unit it is in. 
-     */
-    constructor(ingredientQuantityObject){
-        this._amount = ingredientQuantityObject.amount;
-        this._unit = ingredientQuantityObject.unit;
-    }
+class Quantity {
+  /**
+   *
+   * @param {Number} amount
+   * @param {String} unit
+   */
+  constructor(amount, unit) {
+    this._amount = amount;
+    this._unit = unit;
+  }
 
-    /**
-     * @returns {Number}
-     */
-    get amount(){
-        return this._amount;
-    }
+  /**
+   * @returns {Number}
+   */
+  get amount() {
+    return this._amount;
+  }
 
-    /**
-     * @returns {String}
-     */
-    get unit(){
-        return this._unit;
-    }
+  /**
+   * @returns {String}
+   */
+  get unit() {
+    return this._unit;
+  }
 }
 
 module.exports = Quantity;

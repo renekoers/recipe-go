@@ -13,26 +13,25 @@ const conventions = store.conventions;
 store.initialize();
 
 // Classes
-const Ingredient = require("./src/domain/ingredient");
+const Product = require("./src/domain/product");
 const Recipe = require("./src/domain/recipe");
-const Store = require("./src/domain/store");
+const Supplier = require("./src/domain/supplier");
 
-// API that is called when a new ingredient is requested to beadded.
+// API that is called when a new product is requested to beadded.
 app.post(
-  "/api/ingredients/add",
+  "/api/products/add",
   /**
    *
    * @param {Request} req
    * @param {Response} res
    */
   async function(req, res) {
-    let ingredient = new Ingredient(req.body);
+    let product = new Product(req.body);
 
     const session = store.openSession();
 
-    ingredient = await session.store(ingredient);
+    product = await session.store(product);
     await session.saveChanges();
-    console.log("Ingredient was added.");
 
     res.sendStatus(200);
   }
@@ -53,31 +52,29 @@ app.post(
 
     recipe = await session.store(recipe);
     await session.saveChanges();
-    console.log("Recipe was added.");
   }
 );
 
 app.get(
-  "/api/ingredients/retrieve/all",
+  "/api/products/retrieve/all",
   /**
    *
    * @param {Request} req
    * @param {Response} res
    */
   async function(req, res) {
-    console.log("API call: request for ingredients.");
     const session = store.openSession();
     const query = await session
-      .query({ collection: "Ingredients" })
+      .query({ collection: "Products" })
       .waitForNonStaleResults()
       .selectFields([
         "id",
-        "_ingredientName",
-        "_ingredientKind",
-        "_ingredientPrice",
+        "_productName",
+        "_productKind",
+        "_productPrice",
         "_lastUpdate",
-        "_ingredientRating",
-        "_ingredientSuppliers"
+        "_productRating",
+        "_productSuppliers"
       ])
       .all();
 
@@ -87,26 +84,25 @@ app.get(
 );
 
 app.get(
-  "/api/ingredients/retrieve/latest",
+  "/api/products/retrieve/latest",
   /**
    *
    * @param {Request} req
    * @param {Response} res
    */
   async function(req, res) {
-    console.log("API call: request for latest ingredients.");
     const session = store.openSession();
     const query = await session
-      .query({ collection: "Ingredients" })
+      .query({ collection: "Products" })
       .waitForNonStaleResults()
       .selectFields([
         "id",
-        "_ingredientName",
-        "_ingredientKind",
-        "_ingredientPrice",
+        "_productName",
+        "_productKind",
+        "_productPrice",
         "_lastUpdate",
-        "_ingredientRating",
-        "_ingredientSuppliers"
+        "_productRating",
+        "_productSuppliers"
       ])
       .take(10)
       .all();
@@ -162,7 +158,7 @@ app.post(
 app.get("/api/suppliers/retrieve/all", async function(req, res) {
   const session = store.openSession();
   const query = await session
-    .query({ collection: "Stores" })
+    .query({ collection: "Suppliers" })
     .waitForNonStaleResults()
     .all();
 
@@ -170,42 +166,42 @@ app.get("/api/suppliers/retrieve/all", async function(req, res) {
   res.json(query);
 });
 
-// app.get("/api/initializestore", async function(req, res) {
-//   let newStorename = "";
-//   let newStore = new Store(newStorename);
+app.post("/api/initializesupplier", async function(req, res) {
+  let newSupplierReq = req.body;
+  let newSupplierName = newSupplierReq.supplierName;
+  let newSupplier = new Supplier(newSupplierName);
+  console.log(newSupplier);
+  let session = store.openSession();
+  newSupplier = await session.store(newSupplier);
+  await session.saveChanges();
 
-//   let session = store.openSession();
-//   newStore = await session.store(newStore);
-//   await session.saveChanges();
-
-//   console.log(newStore + " added!");
-//   res.status(200);
-//   res.json(newStore);
-// });
+  res.status(200);
+  res.json(newSupplier);
+});
 
 // API to make recipes while function is not yet available on the website
 app.get("/api/makerecipetest", async function(req, res) {
-  let newIngredient = {
-    ingredientName: "aardbei",
-    ingredientKind: "fruit",
-    ingredientPrice: 0.6,
-    ingredientSuppliers: ["Albert Heijn"]
+  let newProduct = {
+    productName: "aardbei",
+    productKind: "fruit",
+    productPrice: 0.6,
+    productSuppliers: ["Albert Heijn"]
   };
 
   let newQuantity = {
     amount: 10,
     unit: "gram"
   };
-  let ingredient = new Ingredient(newIngredient);
-  let neededIngredient = {
-    ingredientObject: ingredient,
+  let product = new Product(newProduct);
+  let neededProduct = {
+    productObject: product,
     quantityObject: newQuantity
   };
 
   let newRecipe = {
     recipeName: "Aardbeien Jam",
     recipeDescription: "Het is een aardbei in een pot.",
-    recipeIngredients: [neededIngredient]
+    recipeProducts: [neededProduct]
   };
 
   let recipe = new Recipe(newRecipe);

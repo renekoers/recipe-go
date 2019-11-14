@@ -12,16 +12,13 @@ class Recipe {
     this._lastUpdate = new Date().toLocaleString();
     this._recipeRating = 0.0;
 
-    for (let neededIngredient of recipe.recipeIngredients) {
-      let ingredient = neededIngredient.ingredientObject;
-      let quantity = new Quantity(neededIngredient.quantityObject);
-
-      let recipeIngredient = {
-        ingredient: ingredient,
-        quantity: quantity
+    for (let recipeIngredient of recipe.recipeIngredients) {
+      let RecipeIngredient = {
+        ingredient: recipeIngredient.ingredientObject,
+        quantity: new Quantity(recipeIngredient.amount, recipeIngredient.unit)
       };
 
-      this._recipeIngredients.push(recipeIngredient);
+      this._recipeIngredients.push(RecipeIngredient);
     }
 
     // optional variables (Not implemented yet for MVP)
@@ -44,10 +41,6 @@ class Recipe {
 
   get recipeIngredients() {
     return this._recipeIngredients;
-  }
-
-  get ingredientQuantities() {
-    return this._ingredientQuanities;
   }
 
   get lastUpdate() {

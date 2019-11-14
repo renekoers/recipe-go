@@ -13,5 +13,7 @@
 
 .NavigationButton:hover {
   background-color: #b7c2b8;
+  color: rgb(47, 68, 47);
   transition: 0.2s;
+  text-decoration: none;
 }
