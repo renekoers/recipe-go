@@ -7,29 +7,34 @@ class ingredientForm extends Component {
     super(props);
     this.state = {
       id : props.id,
-      ingredient: "",
+      ingredientId: "",
       amount: "",
       unit: "",
-      availableIngredients: []
+      availableIngredientOptions: [],
+      availableIngredients: [],
+      ingredientObject: {}
     };
     // this.timeout = 0;
     this.callback = props.getValues;
   }
 
   componentDidMount() {
-    fetch("/api/ingredients/retrieve/all")
+    let availableIngredients = this.state.availableIngredients;
+
+    fetch("/api/ingredientOptions/retrieve/all")
       .then(results => {
         return results.json();
       })
       .then(data => {
-        let ingredients = data.map((ingredient, index) => {
+        let ingredientOptions = data.map((ingredientId, index) => {
+          availableIngredients.push(ingredientId);
           return (
-            <option value={ingredient.id} index={index} key={index}>
-              {ingredient._ingredientName}{" "}
+            <option value={ingredientId.id} index={index} key={index}>
+              {ingredientId._ingredientName}{" "}
             </option>
           );
         });
-        this.setState({ availableIngredients: ingredients });
+        this.setState({ availableIngredientOptions: ingredientOptions });
       });
   }
 
@@ -79,32 +84,42 @@ class ingredientForm extends Component {
         </InputGroup.Append>
 
         <Form.Control
-          className="ingredient-input-field"
+          className="ingredientId-input-field"
           placeholder="Kies ingrediënt"
           as="select"
-          value={this.state.ingredient}
+          value={this.state.ingredientId}
           required
-          onChange={e => {
-            this.setState({ ingredient: e.target.value }, () =>
-              this.callback(this.state)
-            );
-          }}
+          onChange={e => this.handleIngredientChange(e)}
+            
         >
           <option default disabled value="">
             Kies ingrediënt
           </option>
-          {this.state.availableIngredients}
+          {this.state.availableIngredientOptions}
         </Form.Control>
       </InputGroup>
     );
   }
 
+  handleIngredientChange(e){
+    this.setState({ ingredientId: e.target.value});
+
+    let ingredientObject = this.state.ingredientObject;
+    this.state.availableIngredients.map(ingredient => {
+      if (e.target.value === ingredient.id){
+        ingredientObject = ingredient;
+      }
+    })
+    this.setState({ ingredientObject});
+    this.callback(this.state)
+  }
+
   // searchIngredient(e) {
-  //   this.setState({ ingredient: e.target.value });
+  //   this.setState({ ingredientId: e.target.value });
   //   let query = e.target.value;
   //   if (this.timeout) clearTimeout(this.timeout);
   //   this.timeout = setTimeout(() => {
-  //     fetch("api/ingredient/retrieve/search", {
+  //     fetch("api/ingredientId/retrieve/search", {
   //       method: "POST",
   //       headers: {
   //         Accept: "application/json",
@@ -141,11 +156,11 @@ class ingredientForm extends Component {
   // }
 
   // setRenderedIngredients(data) {
-  //   let ingredients = data.map((ingredient, index) => {
-  //     return <li key={index}>{ingredient._ingredientName}</li>;
+  //   let ingredientOptions = data.map((ingredientId, index) => {
+  //     return <li key={index}>{ingredientId._ingredientName}</li>;
   //   });
 
-  //   this.setState({ renderedIngredients: ingredients });
+  //   this.setState({ renderedIngredients: ingredientOptions });
   // }
 }
 

@@ -128,7 +128,7 @@ class AddRecipe extends Component {
     recipeIngredients = recipeIngredients.map((otherIngredient, index) => {
       if (index === x.id) {
         return {
-          ingredient: x.ingredient,
+          ingredient: x.ingredientObject,
           amount: x.amount,
           unit: x.unit
         };
