@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button, Form, InputGroup, ButtonGroup } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
+import SupplierPriceForm from "../../webpageBase/product/add/supplierPriceForm";
 import "./addProduct.css";
 
 class AddProduct extends Component {
@@ -8,25 +9,28 @@ class AddProduct extends Component {
     super(props);
     this.state = {
       redirect: false,
-      availableSuppliers: [],
+      supplierFormAmount: 1,
       productName: "",
       productAmount: "",
       productUnit: "",
-      productPrice: "",
       productSuppliers: []
     };
   }
 
   componentDidMount() {
+    let productSuppliers = this.state.productSuppliers;
     fetch("/api/suppliers/retrieve/all")
       .then(response => {
         return response.json();
       })
       .then(data => {
-        let retrievedSuppliers = data.map(supplier => {
-          return supplier;
+        productSuppliers = data.map(supplier => {
+          return {
+            supplier: supplier,
+            price: ""
+          };
         });
-        this.setState({ availableSuppliers: retrievedSuppliers });
+        this.setState({ productSuppliers });
       });
   }
 
@@ -35,7 +39,7 @@ class AddProduct extends Component {
     if (redirect === true) {
       return <Redirect to="/products" />;
     }
-    console.log(this.state);
+
     return (
       <div className="add-product-page">
         <div className="add-product-form-container">
@@ -81,66 +85,56 @@ class AddProduct extends Component {
                   Voer een hoeveelheid van het product in
                 </Form.Control.Feedback>
                 <InputGroup.Append className="quantity-select">
-                  <InputGroup.Text>
-                    <Form.Control
-                      as="select"
-                      value={this.state.productUnit}
-                      placeholder="Eenheid"
-                      onChange={input => {
+                  <Form.Control
+                    as="select"
+                    value={this.state.productUnit}
+                    placeholder="Eenheid"
+                    required
+                    onChange={input => {
+                      if (input.target.value !== "Kies eenheid") {
                         this.setState({
                           productUnit: input.target.value
                         });
-                      }}
-                    >
-                      <option>stuks</option>
-                      <option>gram</option>
-                      <option>ml</option>
-                    </Form.Control>
-                  </InputGroup.Text>
+                      }
+                    }}
+                  >
+                    <option default disabled value="">Kies eenheid</option>
+                    <option>stuks</option>
+                    <option>gram</option>
+                    <option>ml</option>
+                  </Form.Control>
                 </InputGroup.Append>
               </InputGroup>
             </Form.Group>
 
             <Form.Group controlid="validation-product-price">
-              <Form.Label>Prijs product</Form.Label>
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="input-field-flag">€</InputGroup.Text>
-                </InputGroup.Prepend>
-                <Form.Control
-                  type="number"
-                  min="0.01"
-                  step="0.01"
-                  placeholder="Prijs"
-                  aria-describedby="input-field-flag"
-                  value={this.state.productPrice}
-                  onChange={input =>
-                    this.setState({ productPrice: input.target.value })
-                  }
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Vul de prijs van het product in.
-                </Form.Control.Feedback>
-              </InputGroup>
+              <Form.Label>Prijs product bij winkel(s)</Form.Label>
+              <div className="supplier-price-forms-container">
+                {this.generateSupplierPriceForms()}
+              </div>
+              <ButtonGroup className="form-button-row">
+                {" "}
+                <Button
+                  variant="success"
+                  type="button"
+                  className="add-button"
+                  onClick={event => this.addSupplierPriceForm(event)}
+                >
+                  Voeg toe
+                </Button>
+                <Button
+                  variant="danger"
+                  type="button"
+                  className="remove-button"
+                  onClick={event => this.removeSupplierPriceForm(event)}
+                >
+                  {" "}
+                  Verwijder
+                </Button>
+              </ButtonGroup>
             </Form.Group>
-
-            <Form.Group controlId="validation-product-suppliers">
-              <Form.Label>Te koop bij</Form.Label>
-              <Form.Control
-                required
-                as="select"
-                multiple
-                onChange={input =>
-                  this.updateMultipleSelection(input.target.options)
-                }
-              >
-                {this.generateSupplierOptions()}
-              </Form.Control>
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-              Voeg toe
+            <Button variant="primary" type="submit" className="submit-button">
+              Sla product op
             </Button>
           </Form>
         </div>
@@ -148,41 +142,58 @@ class AddProduct extends Component {
     );
   }
 
-  generateSupplierOptions() {
-    return this.state.availableSuppliers.map((supplier, index) => {
-      return <option key={index}>{supplier._supplierName}</option>;
+  generateSupplierPriceForms() {
+    return [...new Array(this.state.supplierFormAmount)].map((i, index) => {
+      if (index < this.state.supplierFormAmount) {
+        return (
+          <SupplierPriceForm
+            isLast={true}
+            getValues={this.getValues.bind(this)}
+            id={index}
+            key={index}
+            productSuppliers={this.state.productSuppliers}
+          />
+        );
+      } else {
+        return (
+          <SupplierPriceForm
+            isLast={false}
+            getValues={this.getValues.bind(this)}
+            id={index}
+            key={index}
+            productSuppliers={this.state.productSuppliers}
+          />
+        );
+      }
     });
   }
 
-  updateMultipleSelection(options) {
-    let selectedOptions = [];
-
-    for (let option of options) {
-      if (option.selected) {
-        this.state.availableSuppliers.map(supplier => {
-          if (supplier._supplierName === option.value) {
-            selectedOptions.push(supplier);
-          }
-        });
-      }
+  addSupplierPriceForm() {
+    let formAmount = this.state.supplierFormAmount;
+    if (formAmount < this.state.productSuppliers.length) {
+      formAmount = formAmount + 1;
     }
-    this.setState({ productSuppliers: selectedOptions });
+    this.setState({ supplierFormAmount: formAmount });
+  }
+
+  removeSupplierPriceForm() {
+    let formAmount = this.state.supplierFormAmount;
+    if (formAmount !== 1) {
+      formAmount = formAmount - 1;
+    }
+    this.setState({ supplierFormAmount: formAmount });
   }
 
   handleSubmit() {
+    const data = this.getCorrectState();
+    console.log(data);
     fetch("/api/products/add", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        productName: this.state.productName,
-        productAmount: this.state.productAmount,
-        productUnit: this.state.productUnit,
-        productPrice: this.state.productPrice,
-        productSuppliers: this.state.productSuppliers
-      })
+      body: JSON.stringify(data)
     })
       .then(response => this.status(response))
       .catch(error => {
@@ -198,6 +209,43 @@ class AddProduct extends Component {
     } else {
       return Promise.reject(new Error(response.statusText));
     }
+  }
+
+  getCorrectState() {
+    let productSuppliers = [];
+    for (let supplier of this.state.productSuppliers) {
+      if (supplier.price !== "") {
+        productSuppliers.push(supplier);
+      }
+    }
+
+    const data = {
+      productName: this.state.productName,
+      productAmount: this.state.productAmount,
+      productUnit: this.state.productUnit,
+      productSuppliers: productSuppliers
+    };
+
+    return data;
+  }
+
+  getValues(x) {
+    console.log(this.state.productSuppliers);
+    let productSuppliers = this.state.productSuppliers;
+    let updatedProductSuppliers = productSuppliers.map(supplier => {
+      if (supplier.supplier._supplierName === x.selectedSupplier) {
+        return {
+          supplier: {
+            _supplierName: x.selectedSupplier
+          },
+          price: x.price
+        };
+      }
+
+      return supplier;
+    });
+    console.log(updatedProductSuppliers);
+    this.setState({ productSuppliers: updatedProductSuppliers });
   }
 
   redirect() {

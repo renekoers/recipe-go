@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "../webpageBase/menu/topMenuBar";
 import "./homepage.css";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import HomepageRecipe from "../webpageBase/recipe/homepageRecipe";
 
 class Homepage extends Component {
@@ -33,6 +35,11 @@ class Homepage extends Component {
   render() {
     return (
       <div className="homepage-page">
+        <div className="top-add-button">
+          <Link to="/recipes/add">
+            <Button variant="primary">Recept toevoegen</Button>
+          </Link>
+        </div>
         <div className="recipe-list">{this.state.frontPageRecipes}</div>
       </div>
     );

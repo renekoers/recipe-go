@@ -16,6 +16,7 @@ store.initialize();
 const Product = require("./src/domain/product");
 const Recipe = require("./src/domain/recipe");
 const Supplier = require("./src/domain/supplier");
+const Ingredient = require("./src/domain/ingredient");
 
 // API that is called when a new product is requested to beadded.
 app.post(
@@ -52,6 +53,8 @@ app.post(
 
     recipe = await session.store(recipe);
     await session.saveChanges();
+
+    res.status(200);
   }
 );
 
@@ -67,15 +70,6 @@ app.get(
     const query = await session
       .query({ collection: "Products" })
       .waitForNonStaleResults()
-      .selectFields([
-        "id",
-        "_productName",
-        "_productKind",
-        "_productPrice",
-        "_lastUpdate",
-        "_productRating",
-        "_productSuppliers"
-      ])
       .all();
 
     res.status(200);
@@ -98,12 +92,11 @@ app.get(
       .selectFields([
         "id",
         "_productName",
-        "_productKind",
-        "_productPrice",
         "_lastUpdate",
         "_productRating",
         "_productSuppliers"
       ])
+      .orderBy("_lastUpdate")
       .take(10)
       .all();
 
@@ -125,6 +118,7 @@ app.get(
       .query({ collection: "Recipes" })
       .waitForNonStaleResults()
       .selectFields(["id", "_recipeName", "_recipeDescription"])
+      .orderBy("_lastUpdate")
       .take(10)
       .all();
 
@@ -166,17 +160,43 @@ app.get("/api/suppliers/retrieve/all", async function(req, res) {
   res.json(query);
 });
 
-app.post("/api/initializesupplier", async function(req, res) {
-  let newSupplierReq = req.body;
-  let newSupplierName = newSupplierReq.supplierName;
-  let newSupplier = new Supplier(newSupplierName);
-  console.log(newSupplier);
-  let session = store.openSession();
-  newSupplier = await session.store(newSupplier);
-  await session.saveChanges();
+app.post("/recipes/api/ingredient/retrieve/search", async function(req, res) {
+  console.log("called");
+  const searchQuery = req.body;
+  const session = store.openSession();
+  const query = await session
+    .query({ collection: "Ingredients" })
+    .search("_ingredientName", searchQuery.query)
+    .orElse()
+    .whereStartsWith("_ingredientName", searchQuery.query)
+    .orderByDescending("_ingredientName")
+    .take(10)
+    .all();
 
   res.status(200);
-  res.json(newSupplier);
+  res.json(query);
+});
+
+app.get("/api/ingredients/retrieve/all", async function(req, res) {
+  const session = store.openSession();
+  const query = await session
+    .query({ collection: "Ingredients" })
+    .waitForNonStaleResults()
+    .orderBy("_ingredientName")
+    .all();
+
+  res.status(200);
+  res.json(query);
+});
+
+app.post("/api/ingredient/add", async function(req, res) {
+  let newIngredient = new Ingredient(req.body);
+
+  const session = store.openSession();
+  newIngredient = await session.store(newIngredient);
+  await session.saveChanges();
+
+  res.sendStatus(200);
 });
 
 // API to make recipes while function is not yet available on the website
@@ -211,6 +231,19 @@ app.get("/api/makerecipetest", async function(req, res) {
   await session.saveChanges();
   console.log("recipe added");
 });
+
+// app.post("/api/initializesupplier", async function(req, res) {
+//   let newSupplierReq = req.body;
+//   let newSupplierName = newSupplierReq.supplierName;
+//   let newSupplier = new Supplier(newSupplierName);
+//   console.log(newSupplier);
+//   let session = store.openSession();
+//   newSupplier = await session.store(newSupplier);
+//   await session.saveChanges();
+
+//   res.status(200);
+//   res.json(newSupplier);
+// });
 
 // Hosts the server on localhost with selected serverport in settings.
 app.listen(port, () =>

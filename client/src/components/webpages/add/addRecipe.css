@@ -1,0 +1,31 @@
+.add-recipe-page {
+  margin-top: 80px;
+}
+
+.add-recipe-form-container {
+  padding: 10px 50px 10px 50px;
+  background-color: white;
+  margin: 30px auto auto auto;
+  width: 50%;
+}
+
+.submit-button {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.form-button-row {
+  margin-top: 20px;
+}
+
+.add-ingredient-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 80px;
+}
+
+.add-ingredient-button {
+  margin-left: 55%;
+  margin-top: 20px;
+}

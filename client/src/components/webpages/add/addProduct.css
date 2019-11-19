@@ -13,3 +13,12 @@
 .quantity-select {
   height: 38px;
 }
+
+.submit-button {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.form-button-row {
+  margin-top: 20px;
+}

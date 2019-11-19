@@ -23,7 +23,6 @@ class Products extends Component {
           return (
             <Product
               productName={product._productName}
-              productPrice={product._productPrice}
               ProductQuantity={product._productQuantity}
               productSuppliers={product._productSuppliers}
               productRating={product._productRating}

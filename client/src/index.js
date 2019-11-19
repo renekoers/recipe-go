@@ -5,6 +5,7 @@ import Recipe from "./components/webpages/recipe";
 import TopMenuBar from "./components/webpageBase/menu/topMenuBar";
 import Products from "./components/webpages/products";
 import AddProduct from "./components/webpages/add/addProduct";
+import AddRecipe from "./components/webpages/add/addRecipe";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 class WebsiteApp extends Component {
@@ -14,6 +15,7 @@ class WebsiteApp extends Component {
         <TopMenuBar />
         <Switch>
           <Route path="/" exact component={Homepage} />
+          <Route path="/recipes/add" exact strict component={AddRecipe} />
           <Route path="/recipes/:recipeID" exact strict component={Recipe} />
           <Route path="/products" exact strict component={Products} />
           <Route path="/products/add" exact strict component={AddProduct} />

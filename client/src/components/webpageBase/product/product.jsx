@@ -5,22 +5,26 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {
-        productName: props.productName,
-        productPrice: props.productPrice,
-        productQuantity: props.productQuantity,
-        productSuppliers: props.productSuppliers,
-        productRating: props.productRating
-      },
-      suppliers: []
+      productName: props.productName,
+      productPrice: 0,
+      productQuantity: props.productQuantity,
+      productSuppliers: props.productSuppliers,
+      productRating: props.productRating
     };
   }
 
   componentDidMount() {
-    let suppliers = this.getProductSuppliers(
-      this.state.product.productSuppliers
-    );
-    this.setState({ suppliers: suppliers });
+    console.log(this.props.productSuppliers);
+    let cheapestPrice = "";
+    cheapestPrice = this.props.productSuppliers.map((supplier, index) => {
+      if (index === 0) {
+        return supplier.price;
+      } else if (supplier.price < cheapestPrice) {
+        return supplier.price;
+      }
+    });
+
+    this.setState({ productPrice: cheapestPrice });
   }
 
   render() {
@@ -28,9 +32,9 @@ class Product extends Component {
       <div className="product-list-unit">
         <article className="product">
           <div className="product-top-bar">
-            <div className="product-name">{this.state.product.productName}</div>
+            <div className="product-name">{this.state.productName}</div>
             <div className="product-rating">
-              rating: {this.state.product.productRating}
+              rating: {this.state.productRating}
             </div>
           </div>
           <div className="product-content-container">
@@ -40,28 +44,12 @@ class Product extends Component {
               src="https://www.smakelijketenzonderzout.nl/uploads/_products/product_7150/ah-huismerk-gepelde-tomaten.jpg"
             />
             <div className="product-information">
-              <div className="product-price">
-                €{this.state.product.productPrice.toFixed(2)}
-              </div>
-              <ul className="product-suppliers">
-                Verkocht bij: {this.state.suppliers}
-              </ul>
+              <div className="product-price">€{this.state.productPrice}</div>
             </div>
           </div>
         </article>
       </div>
     );
-  }
-
-  getProductSuppliers(suppliers) {
-    let supplierArray = suppliers.map((supplier, index) => {
-      return (
-        <li className="product-supplier" key={index}>
-          {supplier._supplierName}
-        </li>
-      );
-    });
-    return supplierArray;
   }
 }
 
