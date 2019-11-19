@@ -5,51 +5,63 @@ class ProductForIngredientForm extends Component {
     super(props);
     this.state = {
       id: props.id,
+      availableProductOptions: [],
       availableProducts: [],
-      selectedProduct: ""
+      selectedProductId: "",
+      selectedProductObject: {}
     };
 
     this.callback = props.getValue;
   }
 
   componentDidMount() {
+    let availableProducts = this.state.availableProducts;
     fetch("/api/products/retrieve/all")
       .then(results => {
         return results.json();
       })
       .then(data => {
         let fetchedProductOptions = data.map((product, index) => {
+          availableProducts.push(product);
           return (
             <option value={product.id} index={index} key={index}>
               {product._productName}
             </option>
           );
         });
-        this.setState({ availableProducts: fetchedProductOptions });
+        this.setState({ availableProductOptions: fetchedProductOptions });
       });
   }
 
   render() {
+    console.log(this.state);
     return (
       <Form.Control
         className="product-input-field"
         placeholder="Kies product"
         as="select"
-        value={this.state.selectedProduct}
+        value={this.state.selectedProductId}
         required
-        onChange={e => {
-          console.log(e.target.value);
-          this.setState({ selectedProduct: e.target.value }, () =>
-            this.callback(this.state.id, this.state.selectedProduct)
-          );
-        }}
+        onChange={e => this.handleChange(e)}
       >
         <option default disabled value="">
           Kies product
         </option>
-        {this.state.availableProducts}
+        {this.state.availableProductOptions}
       </Form.Control>
     );
+  }
+
+  handleChange(e) {
+    this.setState({ selectedProductId: e.target.value });
+
+    this.state.availableProducts.map(product => {
+      if (product.id === e.target.value) {
+        this.setState({ selectedProductObject: product });
+      }
+    });
+
+    this.callback(this.state.id, this.state.selectedProductObject);
   }
 }
 

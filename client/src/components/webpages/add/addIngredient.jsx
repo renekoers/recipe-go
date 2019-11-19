@@ -9,7 +9,7 @@ class AddIngredient extends Component {
     super(props);
     this.state = {
       ingredientName: "",
-      ingredientProducts: [""],
+      ingredientProducts: [{}],
       productAmount: 1
     };
     // this.saveIngredient = props.saveIngredient;
@@ -109,7 +109,7 @@ class AddIngredient extends Component {
     let productAmount = this.state.productAmount;
     let ingredientProducts = this.state.ingredientProducts;
     productAmount += 1;
-    ingredientProducts.push("");
+    ingredientProducts.push({});
 
     this.setState({ productAmount, ingredientProducts });
   }
