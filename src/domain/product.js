@@ -7,6 +7,10 @@ class Product {
    * @param {Object} newProduct JS Object containing product
    */
   constructor(newProduct) {
+    console.log(newProduct);
+    if (newProduct === undefined) {
+      return;
+    }
     this._productName = newProduct.productName;
     this._productQuantity = new Quantity(
       newProduct.productQuantityObject.amount,

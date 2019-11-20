@@ -3,16 +3,19 @@ const Quantity = require("./quantity");
 class Recipe {
   /**
    *
-   * @param {String} recipe JSON String
+   * @param {String} newRecipe JSON String
    */
-  constructor(recipe) {
-    this._recipeName = recipe.recipeName;
-    this._recipeDescription = recipe.recipeDescription;
+  constructor(newRecipe) {
+    if (newRecipe === undefined) {
+      return;
+    }
+    this._recipeName = newRecipe.recipeName;
+    this._recipeDescription = newRecipe.recipeDescription;
     this._recipeIngredients = [];
     this._lastUpdate = new Date().toLocaleString();
     this._recipeRating = 0.0;
 
-    for (let recipeIngredient of recipe.recipeIngredients) {
+    for (let recipeIngredient of newRecipe.recipeIngredients) {
       console.log(recipeIngredient);
       let RecipeIngredient = {
         ingredient: recipeIngredient.ingredientObject,
@@ -28,9 +31,9 @@ class Recipe {
     // optional variables (Not implemented yet for MVP)
 
     // this._recipeTags = [];
-    // this._recipeImageUrl = recipe._recipeImageUrl;
+    // this._recipeImageUrl = newRecipe._recipeImageUrl;
 
-    // for (let tag of recipe.recipeTags) {
+    // for (let tag of newRecipe.recipeTags) {
     //     this._recipeTags.push(tag);
     // }
   }

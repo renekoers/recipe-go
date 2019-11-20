@@ -4,6 +4,9 @@ class Ingredient {
    * @param {Object} newIngredient JS Object containing ingredient
    */
   constructor(newIngredient) {
+    if (newIngredient === undefined) {
+      return;
+    }
     this._ingredientName = newIngredient.ingredientName;
     this._ingredientProducts = newIngredient.ingredientProducts;
     this._lastUpdate = new Date().toLocaleString();

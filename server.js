@@ -28,6 +28,7 @@ app.post(
    */
   async function(req, res) {
     let product = new Product(req.body);
+    console.log("YADELAOOHO");
 
     const session = store.openSession();
 
