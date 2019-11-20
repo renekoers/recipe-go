@@ -252,6 +252,7 @@ class AddRecipe extends Component {
   }
 
   handleSubmit() {
+    console.log("Submite button clicked");
     let toBeAddedRecipe = {
       recipeName: this.state.recipeName,
       recipeDescription: this.state.recipeDescription,

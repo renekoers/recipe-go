@@ -13,7 +13,7 @@ class AddIngredient extends Component {
       productAmount: 1
     };
 
-    this.saveIngredient = props.saveIngredient;
+    this.saveIngredientToDatabase = props.saveIngredientToDatabase;
     this.cancelForm = props.cancelForm;
   }
 
@@ -144,7 +144,7 @@ class AddIngredient extends Component {
       ingredientName: this.state.ingredientName,
       ingredientProducts: this.state.ingredientProducts
     };
-    this.saveIngredient(ingredient);
+    this.saveIngredientToDatabase(ingredient);
   }
 }
 
