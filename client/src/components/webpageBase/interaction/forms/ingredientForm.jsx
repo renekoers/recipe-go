@@ -12,7 +12,8 @@ class ingredientForm extends Component {
       unit: "",
       availableIngredientOptions: [],
       availableIngredients: [],
-      ingredientObject: {}
+      ingredientObject: {},
+      measurementUnits: ["gram", "ml", "cup", "theelepel", "eetlepel", "stuks"]
     };
     // this.timeout = 0;
     this.callback = props.getValues;
@@ -78,9 +79,7 @@ class ingredientForm extends Component {
             <option disabled default value="">
               Eenheid
             </option>
-            <option>gram</option>
-            <option>ml</option>
-            <option>stuks</option>
+            {this.generateMeasurementUnitOptions()}
           </Form.Control>
         </InputGroup.Append>
 
@@ -112,6 +111,16 @@ class ingredientForm extends Component {
       this.setState({ ingredientObject }, () => {
         this.callback(this.state);
       });
+    });
+  }
+
+  generateMeasurementUnitOptions() {
+    return this.state.measurementUnits.map((measurement, index) => {
+      return (
+        <option key={index} value={measurement}>
+          {measurement}
+        </option>
+      );
     });
   }
 
