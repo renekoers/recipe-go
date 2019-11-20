@@ -200,7 +200,7 @@ class AddRecipe extends Component {
   checkIfIngredientAdded(response) {
     if (response.status === 200) {
       this.closeAddIngredientWindow();
-      alert("jeroen stinkt");
+      console.log("Ingredient added succesfully!");
       return Promise.resolve(response);
     } else {
       return Promise.reject(new Error(response.statusText));

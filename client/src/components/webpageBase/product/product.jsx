@@ -14,16 +14,12 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.productSuppliers);
-    let cheapestPrice = "";
-    cheapestPrice = this.props.productSuppliers.map((supplier, index) => {
-      if (index === 0) {
-        return supplier.price;
-      } else if (supplier.price < cheapestPrice) {
-        return supplier.price;
+    let cheapestPrice = 99999999;
+    for (let supplier of this.props.productSuppliers) {
+      if (supplier.price < cheapestPrice) {
+        cheapestPrice = supplier.price;
       }
-    });
-
+    }
     this.setState({ productPrice: cheapestPrice });
   }
 

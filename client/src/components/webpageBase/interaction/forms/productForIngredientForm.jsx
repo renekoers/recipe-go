@@ -34,7 +34,6 @@ class ProductForIngredientForm extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Form.Control
         className="product-input-field"
@@ -53,15 +52,17 @@ class ProductForIngredientForm extends Component {
   }
 
   handleChange(e) {
-    this.setState({ selectedProductId: e.target.value });
-
-    this.state.availableProducts.map(product => {
-      if (product.id === e.target.value) {
-        this.setState({ selectedProductObject: product });
+    let selectedProductObject = this.state.selectedProductObject;
+    this.setState({ selectedProductId: e.target.value }, () => {
+      for (let product of this.state.availableProducts) {
+        if (product.id === this.state.selectedProductId) {
+          selectedProductObject = product;
+        }
       }
+      this.setState({ selectedProductObject }, () => {
+        this.callback(this.state.id, this.state.selectedProductObject);
+      });
     });
-
-    this.callback(this.state.id, this.state.selectedProductObject);
   }
 }
 

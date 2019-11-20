@@ -6,7 +6,7 @@ class ingredientForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id : props.id,
+      id: props.id,
       ingredientId: "",
       amount: "",
       unit: "",
@@ -90,7 +90,6 @@ class ingredientForm extends Component {
           value={this.state.ingredientId}
           required
           onChange={e => this.handleIngredientChange(e)}
-            
         >
           <option default disabled value="">
             Kies ingrediënt
@@ -101,17 +100,18 @@ class ingredientForm extends Component {
     );
   }
 
-  handleIngredientChange(e){
-    this.setState({ ingredientId: e.target.value});
-
-    let ingredientObject = this.state.ingredientObject;
-    this.state.availableIngredients.map(ingredient => {
-      if (e.target.value === ingredient.id){
-        ingredientObject = ingredient;
+  handleIngredientChange(e) {
+    this.setState({ ingredientId: e.target.value }, () => {
+      let ingredientObject = this.state.ingredientObject;
+      for (let ingredient of this.state.availableIngredients) {
+        if (e.target.value === this.state.ingredientId) {
+          ingredientObject = ingredient;
+        }
       }
-    })
-    this.setState({ ingredientObject});
-    this.callback(this.state)
+      this.setState({ ingredientObject }, () => {
+        this.callback(this.state);
+      });
+    });
   }
 
   // searchIngredient(e) {
