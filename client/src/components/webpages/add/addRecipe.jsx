@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, ButtonGroup } from "react-bootstrap";
-// import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import IngredientForm from "../../webpageBase/interaction/forms/ingredientForm";
 import AddIngredient from "../../webpages/add/addIngredient";
 import "./addRecipe.css";
@@ -9,13 +9,16 @@ class AddRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      redirect: false,
       recipeName: "",
       recipeDescription: "",
       recipeIngredients: [
         {
-          ingredient: "",
-          amount: "",
-          unit: ""
+          ingredientObject: "",
+          ingredientQuantityObject: {
+            amount: "",
+            unit: ""
+          }
         }
       ],
       ingredientAmount: 1,
@@ -23,6 +26,11 @@ class AddRecipe extends Component {
     };
   }
   render() {
+    const redirect = this.state.redirect;
+    if (redirect === true) {
+      return <Redirect to="/" />;
+    }
+
     console.log(this.state);
     return (
       <div className="add-recipe-page">
@@ -128,9 +136,11 @@ class AddRecipe extends Component {
     recipeIngredients = recipeIngredients.map((otherIngredient, index) => {
       if (index === x.id) {
         return {
-          ingredient: x.ingredientObject,
-          amount: x.amount,
-          unit: x.unit
+          ingredientObject: x.ingredientObject,
+          ingredientQuantityObject: {
+            amount: x.amount,
+            unit: x.unit
+          }
         };
       } else {
         return otherIngredient;
@@ -145,9 +155,11 @@ class AddRecipe extends Component {
     let recipeIngredients = this.state.recipeIngredients;
     ingredientAmount += 1;
     recipeIngredients.push({
-      ingredient: "",
-      amount: "",
-      unit: ""
+      ingredientObject: "",
+      ingredientQuantityObject: {
+        amount: "",
+        unit: ""
+      }
     });
     this.setState({ ingredientAmount, recipeIngredients });
   }
@@ -167,7 +179,7 @@ class AddRecipe extends Component {
     if (ingredientForm.length === 0) {
       ingredientForm.push(
         <AddIngredient
-          saveIngredient={this.saveIngredient.bind(this)}
+          saveIngredientToDatabase={this.saveIngredientToDatabase.bind(this)}
           cancelForm={this.closeAddIngredientWindow.bind(this)}
           key={0}
         />
@@ -183,7 +195,7 @@ class AddRecipe extends Component {
     this.setState({ ingredientForm });
   }
 
-  saveIngredient(ingredient) {
+  saveIngredientToDatabase(ingredient) {
     fetch("/api/ingredient/add", {
       method: "POST",
       headers: {
@@ -208,7 +220,45 @@ class AddRecipe extends Component {
     }
   }
 
-  handleSubmit() {}
+  saveRecipeToDatabase(recipe) {
+    fetch("/api/recipes/add", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(recipe)
+    })
+      .then(response => this.checkIfRecipeAdded(response))
+      .then(() => this.redirectToRecipePage())
+      .catch(error => {
+        console.log("Request failed", error);
+      });
+  }
+
+  checkIfRecipeAdded(response) {
+    if (response.status === 200) {
+      console.log("Recipe added succesfully!");
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(new Error(response.statusText));
+    }
+  }
+
+  redirectToHomePage() {
+    let redirect = this.state.redirect;
+    redirect = true;
+    this.setState({ redirect });
+  }
+
+  handleSubmit() {
+    let toBeAddedRecipe = {
+      recipeName: this.state.recipeName,
+      recipeDescription: this.state.recipeDescription,
+      recipeIngredients: this.state.recipeIngredients
+    };
+    this.saveRecipeToDatabase(toBeAddedRecipe);
+  }
 }
 
 export default AddRecipe;
