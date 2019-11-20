@@ -8,7 +8,7 @@ class Recipe extends Component {
     this.state = {
       recipeID: props.match.params.recipeID,
       recipe: {},
-      ingredients: []
+      recipeIngredientList: []
     };
   }
 
@@ -38,32 +38,34 @@ class Recipe extends Component {
       <div className="recipe-container">
         <div className="recipe">
           <h1 className="recipe-title">{this.state.recipe._recipeName}</h1>
-          <ul className="ingredient-list">{this.state.ingredients}</ul>
+          <div className="recipe-content-container">
+            <div className="recipe-ingredient-list-container">
+              <ul className="ingredient-list">
+                {this.state.recipeIngredientList}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   extractIngredientsFromRecipe(recipe) {
-    let ingredientList = recipe._recipeIngredients.map(
+    let recipeIngredientList = this.state.recipeIngredientList;
+    recipeIngredientList = recipe._recipeIngredients.map(
       (ingredientListing, index) => {
         return (
           <RecipeIngredient
             ingredientName={ingredientListing.ingredient._ingredientName}
-            ingredientKind={ingredientListing.ingredient._ingredientKind}
-            ingredientPrice={ingredientListing.ingredient._ingredientPrice}
-            ingredientSuppliers={
-              ingredientListing.ingredient._ingredientSuppliers
-            }
-            ingredientRating={ingredientListing.ingredient._ingredientRating}
             ingredientQuantity={ingredientListing.quantity._amount}
             ingredientUnit={ingredientListing.quantity._unit}
+            ingredientProducts={}
             key={index}
           />
         );
       }
     );
-    this.setState({ ingredients: ingredientList });
+    this.setState({ recipeIngredientList });
   }
 }
 
