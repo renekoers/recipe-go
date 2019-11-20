@@ -21,20 +21,21 @@ class ingredientForm extends Component {
   componentDidMount() {
     let availableIngredients = this.state.availableIngredients;
 
-    fetch("/api/ingredientOptions/retrieve/all")
+    fetch("/api/ingredients/retrieve/all")
       .then(results => {
         return results.json();
       })
       .then(data => {
-        let ingredientOptions = data.map((ingredientId, index) => {
-          availableIngredients.push(ingredientId);
+        let availableIngredientOptions = this.state.availableIngredientOptions;
+        availableIngredientOptions = data.map((ingredient, index) => {
+          availableIngredients.push(ingredient);
           return (
-            <option value={ingredientId.id} index={index} key={index}>
-              {ingredientId._ingredientName}{" "}
+            <option value={ingredient.id} index={index} key={index}>
+              {ingredient._ingredientName}
             </option>
           );
         });
-        this.setState({ availableIngredientOptions: ingredientOptions });
+        this.setState({ availableIngredientOptions, availableIngredients });
       });
   }
 
@@ -104,7 +105,7 @@ class ingredientForm extends Component {
     this.setState({ ingredientId: e.target.value }, () => {
       let ingredientObject = this.state.ingredientObject;
       for (let ingredient of this.state.availableIngredients) {
-        if (e.target.value === this.state.ingredientId) {
+        if (this.state.ingredientId === ingredient.id) {
           ingredientObject = ingredient;
         }
       }

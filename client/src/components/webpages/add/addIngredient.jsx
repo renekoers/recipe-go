@@ -12,7 +12,8 @@ class AddIngredient extends Component {
       ingredientProducts: [{}],
       productAmount: 1
     };
-    // this.saveIngredient = props.saveIngredient;
+
+    this.saveIngredient = props.saveIngredient;
     this.cancelForm = props.cancelForm;
   }
 
@@ -73,7 +74,7 @@ class AddIngredient extends Component {
                   variant="primary"
                   type="submit"
                   className="submit-button"
-                  // onClick={() => this.saveIngredient()}
+                  // onClick={() => this.handleSubmit()}
                 >
                   Sla op
                 </Button>
@@ -135,7 +136,6 @@ class AddIngredient extends Component {
         }
       }
     );
-
     this.setState({ ingredientProducts });
   }
 

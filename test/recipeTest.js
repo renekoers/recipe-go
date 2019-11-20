@@ -13,19 +13,25 @@ let newRecipe = {
       ingredientObject: new Ingredient({
         ingredientName: "tomaten puree",
         ingredientProducts: new Product({
-          productName: "AH tomaten",
+          productName: "tomato",
           productPrice: 0.5,
           productQuantityObject: {
             amount: 100,
             unit: "gram"
           },
           productSuppliers: [
-            new Supplier("Albert Heijn"),
-            new Supplier("Jumbo")
+            {
+              supplier: new Supplier("Albert Heijn"),
+              price: 0.5
+            },
+            {
+              supplier: new Supplier("Jumbo"),
+              price: 1.3
+            }
           ]
         })
       }),
-      quantityObject: {
+      ingredientQuantityObject: {
         amount: 200,
         unit: "gram"
       }

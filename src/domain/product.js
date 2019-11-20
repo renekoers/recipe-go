@@ -9,8 +9,8 @@ class Product {
   constructor(newProduct) {
     this._productName = newProduct.productName;
     this._productQuantity = new Quantity(
-      newProduct.productAmount,
-      newProduct.productUnit
+      newProduct.productQuantityObject.amount,
+      newProduct.productQuantityObject.unit
     );
     this._productSuppliers = newProduct.productSuppliers;
     this._productRating = 0.0;

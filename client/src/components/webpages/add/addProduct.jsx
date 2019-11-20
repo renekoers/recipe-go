@@ -98,7 +98,9 @@ class AddProduct extends Component {
                       }
                     }}
                   >
-                    <option default disabled value="">Kies eenheid</option>
+                    <option default disabled value="">
+                      Kies eenheid
+                    </option>
                     <option>stuks</option>
                     <option>gram</option>
                     <option>ml</option>
@@ -221,8 +223,10 @@ class AddProduct extends Component {
 
     const data = {
       productName: this.state.productName,
-      productAmount: this.state.productAmount,
-      productUnit: this.state.productUnit,
+      productQuantityObject: {
+        amount: this.state.productAmount,
+        unit: this.state.productUnit
+      },
       productSuppliers: productSuppliers
     };
 

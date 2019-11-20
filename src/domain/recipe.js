@@ -13,9 +13,13 @@ class Recipe {
     this._recipeRating = 0.0;
 
     for (let recipeIngredient of recipe.recipeIngredients) {
+      console.log(recipeIngredient);
       let RecipeIngredient = {
         ingredient: recipeIngredient.ingredientObject,
-        quantity: new Quantity(recipeIngredient.amount, recipeIngredient.unit)
+        quantity: new Quantity(
+          recipeIngredient.ingredientQuantityObject.amount,
+          recipeIngredient.ingredientQuantityObject.unit
+        )
       };
 
       this._recipeIngredients.push(RecipeIngredient);

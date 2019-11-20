@@ -9,7 +9,16 @@ let newProduct = {
     amount: 100,
     unit: "gram"
   },
-  productSuppliers: [new Supplier("Albert Heijn"), new Supplier("Jumbo")]
+  productSuppliers: [
+    {
+      supplier: new Supplier("Albert Heijn"),
+      price: 0.5
+    },
+    {
+      supplier: new Supplier("Jumbo"),
+      price: 1.3
+    }
+  ]
 };
 
 var product = new Product(newProduct);
@@ -23,17 +32,20 @@ describe("Product", function() {
   });
 
   describe("getProductPrice", function() {
-    it("Should return " + 0.5, function() {
-      let result = product.productPrice;
-      assert.equal(result, 0.5);
+    it("Should return " + 0.5 + "and" + 1.3, function() {
+      let productSupplier = product.productSuppliers;
+      let result1 = productSupplier[0].price;
+      let result2 = productSupplier[1].price;
+      assert.equal(result1, 0.5);
+      assert.equal(result2, 1.3);
     });
   });
 
   describe("getProductSuppliers", function() {
     it("Should return Albert Heijn and Jumbo", function() {
       let supplier = product.productSuppliers;
-      let result1 = supplier[0].supplierName;
-      let result2 = supplier[1].supplierName;
+      let result1 = supplier[0].supplier.supplierName;
+      let result2 = supplier[1].supplier.supplierName;
 
       assert.equal(result1, "Albert Heijn");
       assert.equal(result2, "Jumbo");
@@ -45,6 +57,19 @@ describe("Product", function() {
       let result = product.productRating;
 
       assert.equal(result, 0);
+    });
+  });
+
+  describe("getProduct quantity and unit", function() {
+    it("Should return " + 100 + "and" + "gram", function() {
+      let productQuantity = product.productQuantity;
+      let amountResult = productQuantity.amount;
+      let unitResult = productQuantity.unit;
+      console.log(productQuantity);
+      console.log(amountResult);
+      console.log(unitResult);
+      assert.equal(amountResult, 100);
+      assert.equal(unitResult, "gram");
     });
   });
 

@@ -66,6 +66,7 @@ app.get(
    * @param {Response} res
    */
   async function(req, res) {
+    console.log(new Date().toLocaleString() + ": Api call for all products");
     const session = store.openSession();
     const query = await session
       .query({ collection: "Products" })
@@ -85,6 +86,7 @@ app.get(
    * @param {Response} res
    */
   async function(req, res) {
+    console.log("Api call for latest");
     const session = store.openSession();
     const query = await session
       .query({ collection: "Products" })
@@ -178,6 +180,8 @@ app.post("/recipes/api/ingredient/retrieve/search", async function(req, res) {
 });
 
 app.get("/api/ingredients/retrieve/all", async function(req, res) {
+  console.log(new Date().toLocaleString() + ": Api call for all ingredients");
+
   const session = store.openSession();
   const query = await session
     .query({ collection: "Ingredients" })
@@ -190,6 +194,7 @@ app.get("/api/ingredients/retrieve/all", async function(req, res) {
 });
 
 app.post("/api/ingredient/add", async function(req, res) {
+  console.log(new Date().toLocaleString() + ": Api call to add new ingredient");
   let newIngredient = new Ingredient(req.body);
 
   const session = store.openSession();

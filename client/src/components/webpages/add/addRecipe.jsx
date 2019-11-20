@@ -167,6 +167,7 @@ class AddRecipe extends Component {
     if (ingredientForm.length === 0) {
       ingredientForm.push(
         <AddIngredient
+          saveIngredient={this.saveIngredient.bind(this)}
           cancelForm={this.closeAddIngredientWindow.bind(this)}
           key={0}
         />
