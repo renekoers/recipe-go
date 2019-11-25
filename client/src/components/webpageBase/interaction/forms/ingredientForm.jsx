@@ -123,55 +123,6 @@ class ingredientForm extends Component {
       );
     });
   }
-
-  // searchIngredient(e) {
-  //   this.setState({ ingredientId: e.target.value });
-  //   let query = e.target.value;
-  //   if (this.timeout) clearTimeout(this.timeout);
-  //   this.timeout = setTimeout(() => {
-  //     fetch("api/ingredientId/retrieve/search", {
-  //       method: "POST",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         query: query
-  //       })
-  //     })
-  //       .then(response => this.status(response))
-  //       .then(results => results.json())
-  //       .then(data => this.handleResultData(data))
-  //       .catch(error => {
-  //         console.log("Request failed", error);
-  //       });
-  //   }, 300);
-  // }
-
-  // status(response) {
-  //   if (response.status === 200) {
-  //     return Promise.resolve(response);
-  //   } else {
-  //     return Promise.reject(new Error(response.statusText));
-  //   }
-  // }
-
-  // handleResultData(data) {
-  //   if (data.length === 0) {
-  //     console.log("Not found");
-  //   } else {
-  //     this.setState({ searchedIngredients: data });
-  //     this.setRenderedIngredients(data);
-  //   }
-  // }
-
-  // setRenderedIngredients(data) {
-  //   let ingredientOptions = data.map((ingredientId, index) => {
-  //     return <li key={index}>{ingredientId._ingredientName}</li>;
-  //   });
-
-  //   this.setState({ renderedIngredients: ingredientOptions });
-  // }
 }
 
 export default ingredientForm;
