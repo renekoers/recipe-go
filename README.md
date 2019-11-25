@@ -11,7 +11,6 @@ and it needs the name of: `RecipeGo`
 
 ### Running the web application
 
-All that then needs to be done is running `npm run server` in `/recipe-go/` to let make npm run the backend server,
-followed by another terminal running `npm run build` in `/recipe-go/` to run the frontend react server
+All that then needs to be done is running `npm run dev` in `/recipe-go/` to let make npm run the backend server, and frontend react servers.
 
 
