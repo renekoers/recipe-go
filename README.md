@@ -1,1 +1,3 @@
 ## Recipe & Go
+
+### `npm install`
