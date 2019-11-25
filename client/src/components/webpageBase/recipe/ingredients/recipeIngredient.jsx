@@ -197,6 +197,7 @@ class RecipeIngredient extends Component {
   };
 
   render() {
+    console.log(this.props.selectedProductSuppliers);
     return (
       <li className="ingredient-container">
         <div className="ingredient">

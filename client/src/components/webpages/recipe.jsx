@@ -19,6 +19,7 @@ class Recipe extends Component {
       recipe: {},
       recipeIngredientList: [],
       isShoppingListActive: false,
+      isShoppingListMissingProducts: true,
       shoppingListItems: [],
       productSupplierOptions: [],
       availableSuppliers: [],
@@ -141,6 +142,20 @@ class Recipe extends Component {
       price: x.price
     };
     console.log(shoppingListItems);
+    this.checkIfShoppingListItemsMissing();
+  };
+
+  checkIfShoppingListItemsMissing = () => {
+    let shoppingListItems = this.state.shoppingListItems;
+    let missingProduct = false;
+    for (let item of shoppingListItems) {
+      if (Object.keys(item.product).length === 0) {
+        missingProduct = true;
+        break;
+      }
+    }
+    console.log(missingProduct);
+    this.setState({ isShoppingListMissingProducts: missingProduct });
   };
 
   render() {
@@ -187,6 +202,7 @@ class Recipe extends Component {
                   color="green"
                   animated
                   onClick={this.handleMakeShoppingListClick}
+                  disabled={this.state.isShoppingListMissingProducts}
                 >
                   <Button.Content visible>
                     {"Maak boodschappenlijst"}
