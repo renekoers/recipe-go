@@ -35,7 +35,7 @@ class Homepage extends Component {
   render() {
     return (
       <div className="homepage-page">
-        <div className="top-add-button">
+        <div className="top-add-recipe-button">
           <Link to="/recipes/add">
             <Button variant="primary">Recept toevoegen</Button>
           </Link>

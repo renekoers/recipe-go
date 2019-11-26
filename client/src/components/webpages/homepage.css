@@ -21,3 +21,8 @@ body {
   border: solid 1px #eaeaea;
   justify-content: center;
 }
+
+.top-add-recipe-button {
+  margin-left: 25%;
+  padding-top: 20px;
+}
