@@ -54,7 +54,7 @@ app.post(
     recipe = await session.store(recipe);
     await session.saveChanges();
 
-    res.status(200);
+    res.sendStatus(200);
   }
 );
 

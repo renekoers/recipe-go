@@ -31,7 +31,6 @@ class AddRecipe extends Component {
       return <Redirect to="/" />;
     }
 
-    console.log(this.state);
     return (
       <div className="add-recipe-page">
         <div>{this.state.ingredientForm}</div>
@@ -221,6 +220,7 @@ class AddRecipe extends Component {
   }
 
   saveRecipeToDatabase(recipe) {
+    console.log("Recipe being sent!");
     fetch("/api/recipes/add", {
       method: "POST",
       headers: {
@@ -229,16 +229,17 @@ class AddRecipe extends Component {
       },
       body: JSON.stringify(recipe)
     })
-      .then(response => this.checkIfRecipeAdded(response))
-      .then(() => this.redirectToRecipePage())
+      .then(response => this.status(response))
       .catch(error => {
         console.log("Request failed", error);
       });
   }
 
-  checkIfRecipeAdded(response) {
+  status(response) {
+    console.log(response.status);
     if (response.status === 200) {
       console.log("Recipe added succesfully!");
+      this.redirectToHomePage();
       return Promise.resolve(response);
     } else {
       return Promise.reject(new Error(response.statusText));
@@ -246,13 +247,11 @@ class AddRecipe extends Component {
   }
 
   redirectToHomePage() {
-    let redirect = this.state.redirect;
-    redirect = true;
-    this.setState({ redirect });
+    this.setState({ redirect: true });
   }
 
   handleSubmit() {
-    console.log("Submite button clicked");
+    console.log("Submit button clicked");
     let toBeAddedRecipe = {
       recipeName: this.state.recipeName,
       recipeDescription: this.state.recipeDescription,
