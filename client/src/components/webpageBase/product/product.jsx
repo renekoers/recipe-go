@@ -29,9 +29,9 @@ class Product extends Component {
         <article className="product">
           <div className="product-top-bar">
             <div className="product-name">{this.state.productName}</div>
-            <div className="product-rating">
+            {/* <div className="product-rating">
               rating: {this.state.productRating}
-            </div>
+            </div> */}
           </div>
           <div className="product-content-container">
             <img
